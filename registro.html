@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRUD con JavaScript</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <h1>CRUD con JavaScript</h1>
+
+    <form id="myForm">
+        <input type="text" id="nombre" placeholder="Nombre">
+        <input type="text" id="correo" placeholder="Correo electrónico">
+        <button type="button" onclick="agregarRegistro()">Agregar</button>
+    </form>
+
+    <h2>Registros</h2>
+    <ul id="listaRegistros">
+    </ul>
+
+    <script>
+        const registros = [];
+        let registroEditando = null;
+
+        function agregarRegistro() {
+            const nombre = document.getElementById("nombre").value;
+            const correo = document.getElementById("correo").value;
+
+            if (nombre && correo) {
+                if (registroEditando) {
+                    // Editar registro existente
+                    registroEditando.nombre = nombre;
+                    registroEditando.correo = correo;
+                    registroEditando = null;
+                } else {
+                    // Agregar nuevo registro
+                    const registro = { nombre, correo };
+                    registros.push(registro);
+                }
+                actualizarListaRegistros();
+                document.getElementById("nombre").value = "";
+                document.getElementById("correo").value = "";
+            }
+        }
+
+        function editarRegistro(index) {
+            const registro = registros[index];
+            document.getElementById("nombre").value = registro.nombre;
+            document.getElementById("correo").value = registro.correo;
+            registroEditando = registro;
+        }
+
+        function eliminarRegistro(index) {
+            registros.splice(index, 1);
+            registroEditando = null;
+            actualizarListaRegistros();
+        }
+
+        function actualizarListaRegistros() {
+            const listaRegistros = document.getElementById("listaRegistros");
+            listaRegistros.innerHTML = "";
+
+            registros.forEach((registro, index) => {
+                const item = document.createElement("li");
+                item.textContent = `Nombre: ${registro.nombre}, Correo: ${registro.correo}`;
+                const editarBtn = document.createElement("button");
+                editarBtn.textContent = "Editar";
+                editarBtn.addEventListener("click", () => editarRegistro(index));
+                const eliminarBtn = document.createElement("button");
+                eliminarBtn.textContent = "Eliminar";
+                eliminarBtn.addEventListener("click", () => eliminarRegistro(index));
+                item.appendChild(editarBtn);
+                item.appendChild(eliminarBtn);
+                listaRegistros.appendChild(item);
+            });
+        }
+
+        actualizarListaRegistros();
+    </script>
+</body>
+</html>
