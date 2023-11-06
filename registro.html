@@ -12,6 +12,11 @@
 <body>
     <h1>CRUD con JavaScript</h1>
 
+
+
+
+
+    
     <form id="myForm">
         <input type="text" id="nombre" placeholder="Nombre">
         <input type="text" id="correo" placeholder="Correo electrónico">
@@ -53,6 +58,9 @@
             document.getElementById("correo").value = registro.correo;
             registroEditando = registro;
         }
+
+
+        
 
         function eliminarRegistro(index) {
             registros.splice(index, 1);
